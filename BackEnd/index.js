@@ -7,12 +7,16 @@ const app = express();
 app.use(express.urlencoded());
 app.use(cors())
 
-mongoose.connect("mongodb://localhost:27017/aurasofLoginRegisterDb", {
+mongoose.connect(
+  "mongodb+srv://sarfaraz220720001230:sCZlKeyoNcVfPJIB@cluster0.2w6oqz1.mongodb.net/mernstack?retryWrites=true&w=majority",
+  {
     useNewUrlParser: true,
-    useUnifiedTopology:true
-}, () => {
-    console.log("Connected")
-});
+    useUnifiedTopology: true,
+  },
+  () => {
+    console.log("Connected");
+  }
+);
 
 //Schema
 
@@ -27,7 +31,19 @@ const User = new mongoose.model("User", userSchema)
 //Routes
 
 app.post("/login", (req, res) => {
-    res.send("My api Login")
+    const { email, password } = req.body;
+
+    User.findOne({ email: email }, (err, user) => {
+        if (user) {
+            if (password === user.password) {
+                res.send({message:"Login Succesful" , user:user})
+            } else { 
+                  res.send({ message: "Login Failed , password din't match" });
+            }
+        } else {
+            res.send("User not Registered")
+        }
+    })
 })
 
 
