@@ -1,7 +1,13 @@
 import React from 'react'
 import { useState } from 'react';
 import './Login.css'
+import axios from 'axios';
+import Register from '../Register/Register';
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  
+  const navigate = useNavigate();
 
   const [user, setUser] = useState({
     email: "",
@@ -16,6 +22,14 @@ const Login = () => {
       ...user,
       [name]: value
     })
+  }
+
+  const login = () => {
+    axios.post("http://localhost:12345/login",user).then(res =>alert(res.data.message))
+  }
+  const handleRegister = () => {
+   
+    navigate("/register")
   }
   return (
     <div className="login">
@@ -35,11 +49,11 @@ const Login = () => {
         type="password"
         placeholder="Enter Your Password"
       />
-      <div className="button">Login</div>
+      <div className="button"  onClick={login} >Login</div>
 
       <div>or</div>
 
-      <div className="button">Register</div>
+      <div className="button"  onClick={handleRegister} >Register</div>
     </div>
   );
 }
