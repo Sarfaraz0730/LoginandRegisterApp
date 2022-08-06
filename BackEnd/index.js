@@ -25,10 +25,13 @@ const userSchema = new mongoose.Schema({
     email: String,
     password:String
 })
+
 //Model
 
 const User = new mongoose.model("User", userSchema)
 //Routes
+
+
 
 app.post("/login", (req, res) => {
     const { email, password } = req.body;
@@ -38,7 +41,7 @@ app.post("/login", (req, res) => {
             if (password === user.password) {
                 res.send({message:"Login Succesful" , user:user})
             } else { 
-                  res.send({ message: "Login Failed , password din't match" });
+                  res.send({ message: "Login Failed , password didn't match" });
             }
         } else {
             res.send("User not Registered")
